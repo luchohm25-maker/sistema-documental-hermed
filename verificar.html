@@ -286,11 +286,9 @@ return;
 
 fetch(
 
-URL_API+
-
-"?codigo="+
-
-codigo
+URL_API +
+"?codigo=" +
+encodeURIComponent(codigo)
 
 )
 
@@ -379,6 +377,29 @@ El código ingresado no existe en el registro HERMED.
 
 
 .catch(error=>{
+
+console.log(error);
+
+resultado.style.display="block";
+
+resultado.className="resultado error";
+
+
+resultado.innerHTML=
+
+`
+<h3>Error de conexión</h3>
+
+<p>
+No se pudo conectar con el sistema HERMED.
+</p>
+
+<p>
+Revise la consola del navegador.
+</p>
+`;
+
+});
 
 
 resultado.style.display="block";
