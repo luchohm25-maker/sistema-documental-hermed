@@ -271,6 +271,7 @@ resultado.style.display="block";
 
 resultado.className="resultado error";
 
+
 resultado.innerHTML=
 
 "Debe ingresar un código de verificación";
@@ -278,31 +279,13 @@ resultado.innerHTML=
 
 return;
 
-
 }
 
 
 
+// Crear función de respuesta global
 
-fetch(
-
-URL_API +
-"?codigo=" +
-encodeURIComponent(codigo)
-
-)
-
-
-.then(
-
-respuesta=>respuesta.json()
-
-)
-
-
-.then(
-
-data=>{
+window.respuestaHERMED = function(data){
 
 
 resultado.style.display="block";
@@ -312,7 +295,9 @@ resultado.style.display="block";
 if(data.estado==="VALIDO"){
 
 
+
 resultado.className="resultado valido";
+
 
 
 resultado.innerHTML=
@@ -320,6 +305,7 @@ resultado.innerHTML=
 `
 
 <h3>✓ DOCUMENTO VÁLIDO</h3>
+
 
 <p>
 <strong>Número:</strong><br>
@@ -371,32 +357,38 @@ El código ingresado no existe en el registro HERMED.
 }
 
 
-}
-
-)
+};
 
 
-.catch(error=>{
-
-console.log(error);
-
-resultado.style.display="block";
-
-resultado.className="resultado error";
 
 
-resultado.innerHTML=
+// Crear consulta JSONP
 
-`
-<h3>Error de conexión</h3>
+const script = document.createElement("script");
 
-<p>
-No se pudo conectar con el sistema HERMED.
-</p>
 
-`;
 
-});
+script.src =
+
+URL_API
+
++
+
+"?codigo="
+
++
+
+encodeURIComponent(codigo)
+
++
+
+"&callback=respuestaHERMED";
+
+
+
+
+document.body.appendChild(script);
+
 
 
 }
